@@ -21,7 +21,10 @@ function Square({ error, index, handleNumber, handleDelete }: Props) {
     e.currentTarget.value = e.key;
   }
   function handleRemoveInput(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.code === 'Backspace') handleDelete(index);
+    if (e.code === 'Backspace') {
+      e.currentTarget.value = '';
+      handleDelete(index);
+    }
   }
 
   return (

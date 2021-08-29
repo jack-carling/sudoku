@@ -4,9 +4,14 @@ import './Board.scss';
 import Square from './Square';
 
 interface BoardData {
-  number: string;
   editable: boolean;
   error: boolean;
+  number: string;
+}
+
+interface CheckData {
+  index: number;
+  number: string;
 }
 
 function Board() {
@@ -36,47 +41,46 @@ function Board() {
     const update = [...board];
     update[index].number = value;
     setBoard(update);
-    checkBoard(index);
+    checkBoard();
   }
 
   function handleDelete(index: number) {
     const update = [...board];
     update[index].number = '';
     setBoard(update);
-    checkBoard(index);
+    checkBoard();
   }
 
-  function checkBoard(index: number) {
-    const row = Math.floor(index % 9);
-    const col = Math.floor(index / 9);
+  function checkBoard() {
+    let checks: CheckData[] = [];
+    let errors: CheckData[] = [];
 
-    let checks: string[] = [];
-    let duplicate: boolean;
-
-    // Check row
-    for (let i = col * 9; i < col * 9 + 9; i++) {
-      if (board[i].number) checks.push(board[i].number);
+    // Check rows
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        const index = i * 9 + j;
+        if (board[index].number) checks.push({ index, number: board[index].number });
+      }
+      if (checks.length) {
+        errors = [...errors, ...checkDuplicates(checks)];
+      }
+      checks = [];
     }
 
-    duplicate = checkDuplicates(index, checks);
-    if (duplicate) return;
-    checks = [];
-
-    // Check col
-    for (let i = row; i < 81; i += 9) {
-      if (board[i].number) checks.push(board[i].number);
+    // Check columns
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 81; j += 9) {
+        const index = i + j;
+        if (board[index].number) checks.push({ index, number: board[index].number });
+      }
+      if (checks.length) {
+        errors = [...errors, ...checkDuplicates(checks)];
+      }
+      checks = [];
     }
 
-    duplicate = checkDuplicates(index, checks);
-    if (duplicate) return;
-    checks = [];
-
-    // Check box
-    let box = Math.floor(row / 3);
-    if (col >= 3 && col <= 5) box += 3;
-    if (col >= 6 && col <= 8) box += 6;
-
-    const boxIndexes = [
+    // Check boxes
+    const boxes = [
       [0, 1, 2, 9, 10, 11, 18, 19, 20],
       [3, 4, 5, 12, 13, 14, 21, 22, 23],
       [6, 7, 8, 15, 16, 17, 24, 25, 26],
@@ -87,22 +91,42 @@ function Board() {
       [57, 58, 59, 66, 67, 68, 75, 76, 77],
       [60, 61, 62, 69, 70, 71, 78, 79, 80],
     ];
+
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = 0; j < boxes[i].length; j++) {
+        const index = boxes[i][j];
+        if (board[index].number) checks.push({ index, number: board[index].number });
+      }
+      if (checks.length) {
+        errors = [...errors, ...checkDuplicates(checks)];
+      }
+      checks = [];
+    }
+
+    const set = new Set(errors.map((x) => x.index));
+
+    const update = [...board];
+    for (let i = 0; i < board.length; i++) {
+      if (set.has(i)) {
+        update[i].error = true;
+      } else {
+        update[i].error = false;
+      }
+    }
+    setBoard(update);
   }
 
-  function checkDuplicates(index: number, checks: string[]) {
-    const duplicates = checks.filter((number) => board[index].number === number).length > 1;
+  function checkDuplicates(checks: CheckData[]) {
+    let duplicates: CheckData[] = [];
 
-    if (duplicates) {
-      const update = [...board];
-      update[index].error = true;
-      setBoard(update);
-      return true;
-    } else {
-      const update = [...board];
-      update[index].error = false;
-      setBoard(update);
-      return false;
+    for (let i = 0; i < 9; i++) {
+      const numbers = checks.filter((x) => x.number === i.toString());
+      if (numbers.length < 2) continue;
+      duplicates = [...duplicates, ...numbers];
     }
+
+    if (!duplicates.length) return [];
+    return duplicates;
   }
 
   return (

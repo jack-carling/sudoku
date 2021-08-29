@@ -25,6 +25,9 @@ div.Square {
   input:focus {
     background-color: $focus-color;
   }
+  input.error:focus {
+    color: $error-color;
+  }
 }
 
 @media only screen and (max-width: 350px) {
