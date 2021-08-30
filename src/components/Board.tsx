@@ -1,13 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+import initialize from '../utils/initialize';
+
 import './Board.scss';
 import Square from './Square';
-
-interface BoardData {
-  editable: boolean;
-  error: boolean;
-  number: string;
-}
 
 interface CheckData {
   index: number;
@@ -15,13 +11,7 @@ interface CheckData {
 }
 
 function Board() {
-  const initial: BoardData[] = [];
-  for (let i = 0; i < 81; i++) {
-    initial.push({ number: '', editable: true, error: false });
-  }
-
-  const [board, setBoard] = useState(initial);
-
+  const [board, setBoard] = useState(() => initialize('easy'));
   const boardRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
