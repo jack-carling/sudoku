@@ -12,6 +12,9 @@ div.Square {
     font-size: 1.5rem;
     color: $immutable-color;
   }
+  span.error {
+    color: $error-color;
+  }
   input {
     cursor: default;
     width: 100%;

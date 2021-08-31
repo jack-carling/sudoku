@@ -40,7 +40,7 @@ function Square({ editable, error, index, number, handleNumber, handleDelete }: 
           maxLength={1}
         />
       )}
-      {!editable && <span>{number}</span>}
+      {!editable && <span className={error ? 'error' : ''}>{number}</span>}
     </div>
   );
 }
