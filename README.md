@@ -2,6 +2,10 @@
 
 Work in progress
 
+## Demo
+
+[Play on Netlify](https://sudoku-puzzles.netlify.app/)
+
 ## Setup
 
 ```bash
