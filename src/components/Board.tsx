@@ -10,8 +10,13 @@ interface CheckData {
   number: string;
 }
 
-function Board() {
-  const [board, setBoard] = useState(() => initialize('easy'));
+interface Props {
+  difficulty: string;
+  returnToMainMenu: (e: React.MouseEvent) => void;
+}
+
+function Board({ difficulty, returnToMainMenu }: Props) {
+  const [board, setBoard] = useState(() => initialize(difficulty));
   const boardRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -120,10 +125,15 @@ function Board() {
   }
 
   return (
-    <section ref={boardRef} className="Board">
-      {board.map((square, index) => {
-        return <Square {...square} index={index} handleNumber={handleNumber} handleDelete={handleDelete} key={index} />;
-      })}
+    <section className="game">
+      <section ref={boardRef} className="Board">
+        {board.map((square, index) => {
+          return (
+            <Square {...square} index={index} handleNumber={handleNumber} handleDelete={handleDelete} key={index} />
+          );
+        })}
+      </section>
+      <button onClick={returnToMainMenu}>Main menu</button>
     </section>
   );
 }
