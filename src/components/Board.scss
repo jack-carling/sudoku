@@ -1,4 +1,5 @@
 $border-color: #333;
+$immutable-color: #2a9d8f;
 
 section.Board {
   padding: 1rem;
@@ -24,6 +25,14 @@ section.Board {
   div:nth-child(9n + 4),
   div:nth-child(9n + 7) {
     border-left: 5px solid $border-color;
+  }
+}
+
+section.Board.GameOver {
+  div {
+    border-color: $immutable-color !important;
+    transition: all 2s ease;
+    pointer-events: none;
   }
 }
 

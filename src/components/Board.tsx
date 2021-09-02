@@ -17,6 +17,7 @@ interface Props {
 
 function Board({ difficulty, returnToMainMenu }: Props) {
   const [board, setBoard] = useState(() => initialize(difficulty));
+  const [gameOver, setGameOver] = useState(false);
   const boardRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ function Board({ difficulty, returnToMainMenu }: Props) {
     update[index].number = value;
     setBoard(update);
     checkBoard();
+    checkWin();
   }
 
   function handleDelete(index: number) {
@@ -59,6 +61,7 @@ function Board({ difficulty, returnToMainMenu }: Props) {
       if (checks.length) {
         errors = [...errors, ...checkDuplicates(checks)];
       }
+
       checks = [];
     }
 
@@ -114,7 +117,7 @@ function Board({ difficulty, returnToMainMenu }: Props) {
   function checkDuplicates(checks: CheckData[]) {
     let duplicates: CheckData[] = [];
 
-    for (let i = 0; i < 9; i++) {
+    for (let i = 1; i < 10; i++) {
       const numbers = checks.filter((x) => x.number === i.toString());
       if (numbers.length < 2) continue;
       duplicates = [...duplicates, ...numbers];
@@ -124,12 +127,28 @@ function Board({ difficulty, returnToMainMenu }: Props) {
     return duplicates;
   }
 
+  function checkWin() {
+    const check = board.every((square) => square.number !== '' && !square.error);
+
+    if (check) {
+      setGameOver(true);
+      if (boardRef.current) boardRef.current.classList.add('GameOver');
+    }
+  }
+
   return (
     <section className="game">
       <section ref={boardRef} className="Board">
         {board.map((square, index) => {
           return (
-            <Square {...square} index={index} handleNumber={handleNumber} handleDelete={handleDelete} key={index} />
+            <Square
+              {...square}
+              gameOver={gameOver}
+              index={index}
+              handleNumber={handleNumber}
+              handleDelete={handleDelete}
+              key={index}
+            />
           );
         })}
       </section>
