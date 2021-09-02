@@ -15,6 +15,12 @@ function Square({ editable, error, index, number, handleNumber, handleDelete }: 
   function handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
     const valid = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9'];
 
+    if (e.code === 'Backspace') {
+      e.currentTarget.value = '';
+      handleDelete(index);
+      return;
+    }
+
     if (!valid.includes(e.code)) {
       e.preventDefault();
       return;
@@ -22,24 +28,10 @@ function Square({ editable, error, index, number, handleNumber, handleDelete }: 
     handleNumber(e.key, index);
     e.currentTarget.value = e.key;
   }
-  function handleRemoveInput(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.code === 'Backspace') {
-      e.currentTarget.value = '';
-      handleDelete(index);
-    }
-  }
 
   return (
     <div className="Square">
-      {editable && (
-        <input
-          className={error ? 'error' : ''}
-          onKeyPress={handleInput}
-          onKeyUp={handleRemoveInput}
-          type="tel"
-          maxLength={1}
-        />
-      )}
+      {editable && <input className={error ? 'error' : ''} onKeyDown={handleInput} type="tel" maxLength={1} />}
       {!editable && <span className={error ? 'error' : ''}>{number}</span>}
     </div>
   );
