@@ -1,6 +1,6 @@
 # Sudoku
 
-Work in progress
+Sudoku (数独) is a logic-based number-placement puzzle. In classic sudoku, the objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 sub-grids that compose the grid (also called "boxes") contain all of the digits from 1 to 9. The puzzle setter provides a partially completed grid, which for a well-posed puzzle has a single solution.
 
 ## Demo
 
@@ -14,10 +14,6 @@ npm install
 # Run development server
 npm start
 ```
-
-## About
-
-Sudoku (数独) is a logic-based number-placement puzzle. In classic sudoku, the objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 sub-grids that compose the grid (also called "boxes") contain all of the digits from 1 to 9. The puzzle setter provides a partially completed grid, which for a well-posed puzzle has a single solution.
 
 ## Screenshot
 
