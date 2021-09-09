@@ -3,6 +3,7 @@ import generate from './sudoku.js';
 interface BoardData {
   editable: boolean;
   error: boolean;
+  highlight: boolean;
   number: string;
 }
 
@@ -18,10 +19,10 @@ function initialize(difficulty: string) {
 
   for (let i = 0; i < sudoku.length; i++) {
     if (sudoku[i] === 0) {
-      board.push({ number: '', editable: true, error: false });
+      board.push({ number: '', editable: true, error: false, highlight: false });
     } else {
       const number = sudoku[i].toString();
-      board.push({ number, editable: false, error: false });
+      board.push({ number, editable: false, error: false, highlight: false });
     }
   }
 

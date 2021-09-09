@@ -17,8 +17,7 @@ npm start
 
 ## Screenshot
 
-![screenshot](https://user-images.githubusercontent.com/72305598/131475904-bd446411-cafe-430b-a6e4-3eb5a571ca8e.png)
-
+![screenshot](https://user-images.githubusercontent.com/72305598/132731512-48b94dab-90fe-4eff-829d-ae6f6c1551a6.png)
 
 ## Difficulties
 

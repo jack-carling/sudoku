@@ -5,14 +5,28 @@ import './Square.scss';
 interface Props {
   editable: boolean;
   error: boolean;
+  highlight: boolean;
   index: number;
   number: string;
   gameOver: boolean;
   handleNumber: (input: string, index: number) => void;
   handleDelete: (index: number) => void;
+  handleFocus: (index: number) => void;
+  handleBlur: () => void;
 }
 
-function Square({ editable, error, index, number, gameOver, handleNumber, handleDelete }: Props) {
+function Square({
+  editable,
+  error,
+  highlight,
+  index,
+  number,
+  gameOver,
+  handleNumber,
+  handleDelete,
+  handleFocus,
+  handleBlur,
+}: Props) {
   useEffect(() => {
     if (gameOver) {
       if (inputRef.current) inputRef.current.blur();
@@ -39,9 +53,21 @@ function Square({ editable, error, index, number, gameOver, handleNumber, handle
   }
 
   return (
-    <div className="Square">
+    <div
+      className={`Square ${highlight ? 'highlight' : ''}`}
+      onClick={() => {
+        handleFocus(index);
+      }}
+    >
       {editable && (
-        <input ref={inputRef} className={error ? 'error' : ''} onKeyDown={handleInput} type="tel" maxLength={1} />
+        <input
+          ref={inputRef}
+          onBlur={handleBlur}
+          className={error ? 'error' : ''}
+          onKeyDown={handleInput}
+          type="tel"
+          maxLength={1}
+        />
       )}
       {!editable && <span className={error ? 'error' : ''}>{number}</span>}
     </div>

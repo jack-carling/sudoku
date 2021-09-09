@@ -1,6 +1,7 @@
 $error-color: #e76f51;
 $focus-color: #e9c46a;
 $immutable-color: #2a9d8f;
+$highlight-color: #f4e1b5;
 
 div.Square {
   width: 100%;
@@ -38,6 +39,10 @@ div.Square {
   input.error:focus {
     color: $error-color;
   }
+}
+
+.highlight {
+  background-color: $highlight-color !important;
 }
 
 @media only screen and (max-width: 350px) {

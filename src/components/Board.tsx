@@ -38,6 +38,7 @@ function Board({ difficulty, returnToMainMenu }: Props) {
     update[index].number = value;
     setBoard(update);
     checkBoard();
+    handleFocus(index);
     checkWin();
   }
 
@@ -136,6 +137,31 @@ function Board({ difficulty, returnToMainMenu }: Props) {
     }
   }
 
+  function handleFocus(index: number) {
+    const number = board[index].number;
+    if (!number) {
+      handleBlur();
+      return;
+    }
+    const update = [...board];
+    for (let i = 0; i < board.length; i++) {
+      if (board[i].number === number) {
+        board[i].highlight = true;
+      } else {
+        board[i].highlight = false;
+      }
+    }
+    setBoard(update);
+  }
+
+  function handleBlur() {
+    const update = [...board];
+    for (let i = 0; i < board.length; i++) {
+      board[i].highlight = false;
+    }
+    setBoard(update);
+  }
+
   return (
     <section className="game">
       <section ref={boardRef} className="Board">
@@ -147,6 +173,8 @@ function Board({ difficulty, returnToMainMenu }: Props) {
               index={index}
               handleNumber={handleNumber}
               handleDelete={handleDelete}
+              handleFocus={handleFocus}
+              handleBlur={handleBlur}
               key={index}
             />
           );
